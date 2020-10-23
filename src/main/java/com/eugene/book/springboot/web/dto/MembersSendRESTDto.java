@@ -5,19 +5,12 @@ import lombok.Getter;
 
 @Getter
 public class MembersSendRESTDto {
-    private String fromName;
-    private String toName;
-    private String title;
-    private String message;
     private String token;
+    private Notification notification;
 
-    public MembersSendRESTDto(String fromName, String toName, String title, String message, String token){
-
-        this.fromName = fromName;
-        this.toName = toName;
-        this.title = title;
-        this.message = message;
+    public MembersSendRESTDto(String token, Notification notification){
         this.token = token;
+        this.notification = notification;
 
     }
 

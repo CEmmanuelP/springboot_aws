@@ -1,5 +1,6 @@
 package com.eugene.book.springboot.service.members;
 
+import com.eugene.book.springboot.domain.members.GetToken;
 import com.eugene.book.springboot.domain.members.Members;
 import com.eugene.book.springboot.domain.members.MembersRepository;
 import com.eugene.book.springboot.web.dto.MembersResponseDto;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -37,9 +39,11 @@ public class MembersService {
         return new MembersResponseDto(entity);
     }
 
-    public Long tokenValue(Long id, String token, String toName, MembersSendRESTDto sendRESTDto){
+    @Transactional
+    public String getToken(String toName){
 
-        Optional<Members> byName = membersRepository.findByName(toName);
-        return id;
+        GetToken getToken = membersRepository.findByName(toName);
+        String token = getToken.getToken();
+        return token;
     }
 }
