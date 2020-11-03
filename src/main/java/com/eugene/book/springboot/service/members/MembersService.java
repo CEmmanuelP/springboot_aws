@@ -3,16 +3,15 @@ package com.eugene.book.springboot.service.members;
 import com.eugene.book.springboot.domain.members.GetToken;
 import com.eugene.book.springboot.domain.members.Members;
 import com.eugene.book.springboot.domain.members.MembersRepository;
-import com.eugene.book.springboot.web.dto.MembersResponseDto;
-import com.eugene.book.springboot.web.dto.MembersSaveRequestDto;
-import com.eugene.book.springboot.web.dto.MembersSendRESTDto;
-import com.eugene.book.springboot.web.dto.MembersUpdateRequestDto;
+
+import com.eugene.book.springboot.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -21,8 +20,8 @@ public class MembersService {
     private final MembersRepository membersRepository;
 
     @Transactional
-    public Long save(MembersSaveRequestDto requestDto){
-        return membersRepository.save(requestDto.toEntity()).getId();
+    public String save(MembersSaveRequestDto requestDto){
+        return membersRepository.save(requestDto.toEntity()).getName();
     }
 
     @Transactional
@@ -38,6 +37,15 @@ public class MembersService {
 
         return new MembersResponseDto(entity);
     }
+
+    @Transactional(readOnly = true)
+    public List<MembersResponseDto> findAllDesc(){
+        return membersRepository.findAllDesc().stream()
+                .map(MembersResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+
 
     @Transactional
     public String getToken(String toName){
